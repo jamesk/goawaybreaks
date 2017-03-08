@@ -21,6 +21,7 @@ var test = `import (
 )`
 
 var whitespace = regexp.MustCompile(`\s*\n`)
+var newline = regexp.MustCompile(`\n`)
 
 func main() {
 	write := flag.Bool("w", false, "write result to (source) file instead of stdout")
@@ -28,7 +29,6 @@ func main() {
 
 	var src []byte
 	var err error
-
 
 	if len(args) > 0 {
 		src, err = ioutil.ReadFile(args[0])
@@ -66,7 +66,7 @@ func joinImportGroups(src []byte) ([]byte, error) {
 
 	ends := findEndOfGroups(fileSet, file)
 	srcString := string(src)
-	newLinePositions := regexp.MustCompile(`\n`).FindAllIndex(src, -1)
+	newLinePositions := newline.FindAllIndex(src, -1)
 
 	deleted := 0
 	for _, end := range ends {
@@ -85,8 +85,9 @@ func joinImportGroups(src []byte) ([]byte, error) {
 				break
 			}
 
-			deleted++
 			srcString = srcString[:index] + srcString[nextIndex:]
+			deleted++
+			newLinePositions = newline.FindAllIndex([]byte(srcString), -1)
 		}
 	}
 
