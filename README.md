@@ -29,3 +29,13 @@ import (
 )
 ```
 Personally I don't intentionally split my imports into my own groups and I don't think you should as it means that there is less consistency when `goimports` is run.
+If you run `goawaybreaks` first then `goimports` the imports would become
+```
+import (
+        "local"
+        "local2"
+
+        "remote.com/other"
+        "remote.com/pack"
+)
+```
