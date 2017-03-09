@@ -1,16 +1,14 @@
 package main
 
 import (
-	"go/token"
-	"go/ast"
-
-	"regexp"
-	"os"
-	"io/ioutil"
 	"flag"
+	"go/ast"
+	"go/token"
+	"io/ioutil"
+	"os"
+	"regexp"
 )
-/*"io/ioutil"
-"os"*/
+
 var test = `import (
  "remote.com/other"
  "local"
@@ -25,8 +23,9 @@ var newline = regexp.MustCompile(`\n`)
 
 func main() {
 	write := flag.Bool("w", false, "write result to (source) file instead of stdout")
-	args := flag.Args()
+	flag.Parse()
 
+	args := flag.Args()
 	var src []byte
 	var err error
 
@@ -42,17 +41,15 @@ func main() {
 		}
 	}
 
-	//src := []byte(test)
-
 	out, err := joinImportGroups(src)
 
 	if len(args) > 0 && *write {
 		ioutil.WriteFile(args[0], out, 0)
-	}
-
-	_, err = os.Stdout.Write(out)
-	if err != nil {
-		panic(err)
+	} else {
+		_, err = os.Stdout.Write(out)
+		if err != nil {
+			panic(err)
+		}
 	}
 }
 
