@@ -2,6 +2,14 @@
 
 Small utility to remove blank (whitespace only) lines from import groups in go code
 
+## Usage
+```
+goawaybreaks -w file.go
+```
+Removes breaks and writes the result to the source file instead of stdout
+
+There is also a streaming stdin/stdout mode of operation just like `goimports`
+
 ## Motivation
 
 >Make imports more consistent
